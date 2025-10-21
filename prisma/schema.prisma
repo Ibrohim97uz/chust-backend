@@ -1,8 +1,8 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// This is your Prisma schema file
+// learn more about it in the docs https//pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Looking for ways to speed up your queries or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate https//pris.ly/cli/accelerate-init
 
 generator client {
   provider      = "prisma-client-js"
@@ -13,4 +13,482 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Showcase {
+  id                 Int     @id @default(autoincrement())
+  address_uz         String?
+  address_en         String?
+  address_ru         String?
+  address_oz         String?
+  chust_admin_phone  String?
+  short_phone_number String?
+}
+
+model CityNews {
+  id           Int      @id @default(autoincrement())
+  image        String?
+  title_uz     String?
+  title_en     String?
+  title_ru     String?
+  title_oz     String?
+  desc_uz      String?
+  desc_en      String?
+  desc_ru      String?
+  desc_oz      String?
+  inner_images String[]
+  tags         String[]
+}
+
+model DistrictNews {
+  id           Int      @id @default(autoincrement())
+  image        String?
+  title_uz     String?
+  title_en     String?
+  title_ru     String?
+  title_oz     String?
+  desc_uz      String?
+  desc_en      String?
+  desc_ru      String?
+  desc_oz      String?
+  inner_images String[]
+  tags         String[]
+}
+
+model EmergencyNews {
+  id       Int             @id @default(autoincrement())
+  image    String?
+  title_uz String?
+  title_en String?
+  title_ru String?
+  title_oz String?
+  desc_uz  String?
+  desc_en  String?
+  desc_ru  String?
+  desc_oz  String?
+  for      String?
+  parent   EmergencyNews?  @relation("EmergencyNewsRelation", fields: [parentId], references: [id])
+  children EmergencyNews[] @relation("EmergencyNewsRelation")
+  parentId Int?
+}
+
+enum EmergencyStatusEnum {
+  PENDING
+  DONE
+}
+
+model Video {
+  id       Int      @id @default(autoincrement())
+  content  String?
+  title_uz String?
+  title_ru String?
+  title_en String?
+  title_oz String?
+  tags     String[]
+}
+
+model Gallery {
+  id       Int      @id @default(autoincrement())
+  images   String?
+  title_uz String?
+  title_ru String?
+  title_en String?
+  title_oz String?
+  author   String?
+  tags     String[]
+}
+
+model VisualReception {
+  id            Int     @id @default(autoincrement())
+  first_name    String?
+  last_name     String?
+  middle_name   String?
+  email         String?
+  appeal_type   String?
+  enter_address String?
+  address       String?
+  phone_number  String?
+  appeal_text   String?
+  upload_files  String?
+  rules_confirm String?
+}
+
+model EmergencyPhones {
+  id           Int     @id @default(autoincrement())
+  phone_number String?
+  desc_uz      String?
+  desc_ru      String?
+  desc_en      String?
+  desc_oz      String?
+}
+
+model HelpPhone {
+  id           Int     @id @default(autoincrement())
+  phone_number String?
+  desc_uz      String?
+  desc_ru      String?
+  desc_en      String?
+  desc_oz      String?
+}
+
+model HelloChust {
+  id           Int      @id @default(autoincrement())
+  image        String?
+  title_uz     String?
+  title_en     String?
+  title_ru     String?
+  title_oz     String?
+  desc_uz      String?
+  desc_en      String?
+  desc_ru      String?
+  desc_oz      String?
+  inner_images String[]
+}
+
+model Services {
+  id         Int      @id @default(autoincrement())
+  title_uz   String?
+  title_en   String?
+  title_ru   String?
+  title_oz   String?
+  desc_uz    String?
+  desc_en    String?
+  desc_ru    String?
+  desc_oz    String?
+  url        String?
+  video      String?
+  is_popular Boolean?
+}
+
+model Opportunities {
+  id                     Int                @id @default(autoincrement())
+  question_uz            String?
+  question_ru            String?
+  question_en            String?
+  question_oz            String?
+  question_desc_uz       String?
+  question_desc_ru       String?
+  question_desc_en       String?
+  question_desc_oz       String?
+  age_from               Int?
+  age_to                 Int?
+  gender                 GenderEnum?
+  disability             Boolean?
+  citizenship            CitizenshipEnum?
+  martial_status         MartialStatusEnum?
+  presence_of_children   Boolean?
+  education              EducationTypeEnum?
+  presence_of_car        Boolean?
+  presence_of_realestate Boolean?
+  criminal_record        Boolean?
+  presence_of_pet        Boolean?
+  pension                Boolean?
+  listed                 ListedEnum?
+  spheres                String[]
+}
+
+enum GenderEnum {
+  MALE
+  FEMALE
+}
+
+enum CitizenshipEnum {
+  ALL
+  UZBEK
+  STATELESS
+  FOREIGNER
+}
+
+enum MartialStatusEnum {
+  ALL
+  SINGLE
+  DIVORCED
+  MARRIED
+  WIDOWED
+}
+
+enum EducationTypeEnum {
+  HIGHER_EDUCATION
+  INCOMPLETE_HIGHER_EDUCATION
+  SECONDARY_EDUCATION
+  PRIMARY_EDUCATION
+  NO_EDUCATION
+}
+
+enum ListedEnum {
+  ALL
+  IRON_NOTEBOOK
+  YOUTH_NOTEBOOK
+  WOMENS_NOTEBOOK
+}
+
+model UsefulApps {
+  id              Int     @id @default(autoincrement())
+  image           String?
+  title_uz        String?
+  title_en        String?
+  title_ru        String?
+  title_oz        String?
+  desc_uz         String?
+  desc_en         String?
+  desc_ru         String?
+  desc_oz         String?
+  play_market_url String?
+  app_stor_url    String?
+}
+
+model UsefulCities {
+  id       Int     @id @default(autoincrement())
+  image    String?
+  title_uz String?
+  title_en String?
+  title_ru String?
+  title_oz String?
+  url      String?
+}
+
+model Structures {
+  id                         Int     @id @default(autoincrement())
+  director_name              String?
+  director_phone_number      String?
+  director_email             String?
+  director_address_uz        String?
+  director_address_ru        String?
+  director_address_en        String?
+  director_address_oz        String?
+  director_telegram_bot_name String?
+  director_telegram_bot_url  String?
+  director_facebook_name     String?
+  director_facebook_url      String?
+  desc_uz                    String?
+  desc_en                    String?
+  desc_ru                    String?
+  desc_oz                    String?
+  internal_management_image  String?
+  internal_management_file   String?
+}
+
+model Articles {
+  id       Int     @id @default(autoincrement())
+  title_uz String?
+  title_en String?
+  title_ru String?
+  title_oz String?
+  desc_uz  String?
+  desc_en  String?
+  desc_ru  String?
+  desc_oz  String?
+  url      String?
+}
+
+model Meetings {
+  id           Int      @id @default(autoincrement())
+  image        String?
+  title_uz     String?
+  title_en     String?
+  title_ru     String?
+  title_oz     String?
+  desc_uz      String?
+  desc_en      String?
+  desc_ru      String?
+  desc_oz      String?
+  inner_images String[]
+}
+
+model DocumentsForCorruption {
+  id       Int     @id @default(autoincrement())
+  title_uz String?
+  title_en String?
+  title_ru String?
+  title_oz String?
+  file     String?
+}
+
+model City {
+  id       Int     @id @default(autoincrement())
+  image    String?
+  about_uz String?
+  about_en String?
+  about_ru String?
+  about_oz String?
+}
+
+model AboutGovernment {
+  id       Int     @id @default(autoincrement())
+  title_uz String?
+  title_en String?
+  title_ru String?
+  title_oz String?
+  desc_uz  String?
+  desc_en  String?
+  desc_ru  String?
+  desc_oz  String?
+  image    String?
+}
+
+model StructureDirector {
+  id           Int     @id @default(autoincrement())
+  full_name    String?
+  email        String?
+  address      String?
+  working_time String?
+}
+
+model StructureLeadership {
+  id             Int     @id @default(autoincrement())
+  full_name      String?
+  desc_uz        String?
+  desc_en        String?
+  desc_ru        String?
+  desc_oz        String?
+  phone_number   String?
+  email          String?
+  reception_time String?
+  bio_duties_uz  String?
+  bio_duties_en  String?
+  bio_duties_ru  String?
+  bio_duties_oz  String?
+}
+
+model StructureCentralApparatus {
+  id             Int     @id @default(autoincrement())
+  full_name      String?
+  desc_uz        String?
+  desc_en        String?
+  desc_ru        String?
+  desc_oz        String?
+  phone_number   String?
+  email          String?
+  reception_time String?
+  bio_duties_uz  String?
+  bio_duties_en  String?
+  bio_duties_ru  String?
+  bio_duties_oz  String?
+}
+
+model StructureSystemOrg {
+  id             Int     @id @default(autoincrement())
+  full_name      String?
+  desc_uz        String?
+  desc_en        String?
+  desc_ru        String?
+  desc_oz        String?
+  phone_number   String?
+  email          String?
+  reception_time String?
+  bio_duties_uz  String?
+  bio_duties_en  String?
+  bio_duties_ru  String?
+  bio_duties_oz  String?
+}
+
+model OrganizationalStructure {
+  id    Int     @id @default(autoincrement())
+  image String?
+}
+
+model PressService {
+  id           Int     @id @default(autoincrement())
+  text_uz      String?
+  text_en      String?
+  text_ru      String?
+  text_oz      String?
+  phone_number String?
+  email        String?
+  telegram     String?
+  youtube      String?
+  facebook     String?
+  instagram    String?
+}
+
+model Documents {
+  id             Int               @id @default(autoincrement())
+  number         String?
+  text_uz        String?
+  text_en        String?
+  text_ru        String?
+  text_oz        String?
+  publish_date   DateTime?
+  effective_date DateTime?
+  url            String?
+  type           DocumentTypeEnum?
+}
+
+enum DocumentTypeEnum {
+  ALL
+  COUNCIL_DECISION
+  GOVERNOR_ORDER
+  GOVERNOR_DECISION
+  OTHER
+}
+
+model ContactInfo {
+  id                  Int       @id @default(autoincrement())
+  personal_acc_number Int?
+  telegram            String?
+  facebook            String?
+  instagram           String?
+  youtube             String?
+  address             String?
+  landmark            String?
+  working_hours       String?
+  contacts            Contact[]
+}
+
+model Contact {
+  id            Int          @id @default(autoincrement())
+  phone_number  String?
+  title_uz      String?
+  title_en      String?
+  title_ru      String?
+  title_oz      String?
+  email         String?
+  contactInfoId Int?
+  contactInfo   ContactInfo? @relation(fields: [contactInfoId], references: [id])
+}
+
+model DistrictDeputies {
+  id        Int     @id @default(autoincrement())
+  full_name String?
+  desc_uz   String?
+  desc_en   String?
+  desc_ru   String?
+  desc_oz   String?
+  email     String?
+  bio_uz    String?
+  bio_en    String?
+  bio_ru    String?
+  bio_oz    String?
+}
+
+model Mahalla {
+  id                   Int     @id @default(autoincrement())
+  name_uz              String?
+  name_en              String?
+  name_ru              String?
+  name_oz              String?
+  director_fullname_uz String?
+  director_fullname_en String?
+  director_fullname_ru String?
+  director_fullname_oz String?
+  phone_number         String?
+}
+
+model PublicCouncil {
+  id              Int     @id @default(autoincrement())
+  name_uz         String?
+  name_en         String?
+  name_ru         String?
+  name_oz         String?
+  phone_number    String?
+  email           String?
+  address_uz      String?
+  address_en      String?
+  address_ru      String?
+  address_oz      String?
+  desc_uz         String?
+  desc_en         String?
+  desc_ru         String?
+  desc_oz         String?
+  structure_image String?
 }
