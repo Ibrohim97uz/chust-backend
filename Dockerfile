@@ -2,16 +2,15 @@
     FROM node:22-alpine AS builder
 
     WORKDIR /usr/src/app
-    COPY package.json package-lock.json ./
+    COPY package.json ./
     RUN npm config set strict-ssl false
-    RUN npm install -g prisma
     ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
     
 
     RUN npm install -f
     COPY . .
     
-    RUN npx prisma generate
+    RUN NODE_TLS_REJECT_UNAUTHORIZED=0 npx prisma generate
     # Build application
     RUN npm run build 
 
@@ -25,7 +24,6 @@
     COPY --from=builder /usr/src/app/dist ./dist
     COPY --from=builder /usr/src/app/package.json ./package.json
     COPY --from=builder /usr/src/app/prisma ./prisma
-    COPY --from=builder /usr/src/app/keycloak_public_key.pem ./
     
     ENV NODE_ENV=production
     
