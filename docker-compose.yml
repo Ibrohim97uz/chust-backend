@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: chust-backend
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: '123456789'
+    restart: always
+    ports:
+      - '5433:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - chust_network
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-U', 'postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chust_backend
+    restart: unless-stopped
+    ports:
+      - '9858:3000'
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    networks:
+      - chust_network
+    volumes:
+      - .:/app
+
+volumes:
+  db_data:
+
+networks:
+  chust_network:
+    driver: bridge
