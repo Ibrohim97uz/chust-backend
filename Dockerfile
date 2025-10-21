@@ -1,11 +1,12 @@
 # ---- Build Stage ----
-    FROM node:20-alpine AS builder
+    FROM node:22-alpine AS builder
 
     WORKDIR /usr/src/app
     COPY package.json package-lock.json ./
     RUN npm config set strict-ssl false
     RUN npm install -g prisma
-
+    ENV PRISMA_ENGINES_CHECKSUM_IGNORE_MISSING=1
+    
 
     RUN npm install -f
     COPY . .
@@ -15,7 +16,7 @@
     RUN npm run build 
 
     # ---- Production Stage ----
-    FROM node:20-alpine AS production
+    FROM node:22-alpine AS production
     
     WORKDIR /usr/src/app
     
