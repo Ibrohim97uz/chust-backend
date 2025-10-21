@@ -3,11 +3,15 @@
 
     WORKDIR /usr/src/app
     COPY package.json package-lock.json ./
+    RUN npm config set strict-ssl false
+    RUN npm install -g npm@latest
+    RUN npm ci --legacy-peer-deps --no-audit --no-fund
+
 
     RUN npm install -f
     COPY . .
     
-    RUN npx --yes prisma generate --schema=./prisma/schema.prisma
+    RUN npx prisma generate
     # Build application
     RUN npm run build 
 
