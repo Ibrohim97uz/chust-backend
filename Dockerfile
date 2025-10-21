@@ -1,11 +1,9 @@
 # ---- Build Stage ----
-    FROM node:22-alpine AS builder
+    FROM node:20-alpine AS builder
 
     WORKDIR /usr/src/app
     COPY package.json package-lock.json ./
     RUN npm config set strict-ssl false
-    RUN npm install -g npm@latest
-    RUN npm ci --legacy-peer-deps --no-audit --no-fund
 
 
     RUN npm install -f
@@ -16,7 +14,7 @@
     RUN npm run build 
 
     # ---- Production Stage ----
-    FROM node:22-alpine AS production
+    FROM node:20-alpine AS production
     
     WORKDIR /usr/src/app
     
