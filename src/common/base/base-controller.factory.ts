@@ -9,9 +9,17 @@ import {
   Query,
   Type,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { BaseController } from './base.controller';
 import { BaseService } from './base.service';
+import { PaginatedResponseDto } from './dto/paginated.response.dto';
+import { PaginationDto } from './dto/pagination.dto';
 
 export function createBaseController<T>({
   path,
@@ -42,9 +50,9 @@ export function createBaseController<T>({
     }
 
     @ApiOperation({ summary: `Get all ${tag}` })
-    @ApiResponse({ status: 200, type: entity, isArray: true })
+    @ApiResponse({ status: 200, type: PaginatedResponseDto(entity) })
     @Get()
-    override findAll(@Query() query) {
+    override findAll(@Query() query: PaginationDto) {
       return super.findAll(query);
     }
 
