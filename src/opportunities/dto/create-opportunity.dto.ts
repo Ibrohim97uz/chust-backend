@@ -21,7 +21,11 @@ export class CreateOpportunityDto implements Omit<Opportunities, 'id'> {
   @IsOptional()
   age_to: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    enum: $Enums.CitizenshipEnum,
+    enumName: 'CitizenshipEnum',
+    required: true,
+  })
   @IsEnum($Enums.CitizenshipEnum)
   @IsOptional()
   citizenship: $Enums.CitizenshipEnum;
@@ -36,22 +40,38 @@ export class CreateOpportunityDto implements Omit<Opportunities, 'id'> {
   @IsOptional()
   disability: boolean;
 
-  @ApiProperty()
+  @ApiProperty({
+    enum: $Enums.EducationTypeEnum,
+    enumName: 'EducationTypeEnum',
+    required: true,
+  })
   @IsEnum($Enums.EducationTypeEnum)
   @IsOptional()
   education: $Enums.EducationTypeEnum;
 
-  @ApiProperty()
+  @ApiProperty({
+    enum: $Enums.GenderEnum,
+    enumName: 'GenderEnum',
+    required: true,
+  })
   @IsEnum($Enums.GenderEnum)
   @IsOptional()
   gender: $Enums.GenderEnum;
 
-  @ApiProperty()
+  @ApiProperty({
+    enum: $Enums.ListedEnum,
+    enumName: 'ListedEnum',
+    required: true,
+  })
   @IsEnum($Enums.ListedEnum)
   @IsOptional()
   listed: $Enums.ListedEnum;
 
-  @ApiProperty()
+  @ApiProperty({
+    enum: $Enums.MartialStatusEnum,
+    enumName: 'MartialStatusEnum',
+    required: true,
+  })
   @IsEnum($Enums.MartialStatusEnum)
   @IsOptional()
   martial_status: $Enums.MartialStatusEnum;
